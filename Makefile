@@ -355,6 +355,7 @@ GEN_OPT_FLAGS := $(call cc-option,$(ARM_ARCH_OPT),-march=armv8-a+crypto) \
 ABYSS_FLAGS 	:= $(GEN_OPT_FLAGS) -O3 -pipe \
 		   -ffast-math -fsingle-precision-constant -fsched-spec-load \
 		   -fpredictive-commoning -fgcse-after-reload -fgcse-sm \
+                   -mcpu=cortex-a57.cortex-a53 -mtune=cortex-a57.cortex-a53 \
 		   -fno-pic -mno-android
 
 # Use the wrapper for the compiler.  This wrapper scans for new
@@ -604,7 +605,7 @@ all: vmlinux
 ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
 KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
 else
-KBUILD_CFLAGS	+= -O3
+KBUILD_CFLAGS	+= -O3 $(call cc-disable-warning,maybe-uninitialized,)
 endif
 
 include $(srctree)/arch/$(SRCARCH)/Makefile
